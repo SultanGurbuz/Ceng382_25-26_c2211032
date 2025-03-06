@@ -186,7 +186,7 @@ input[type="text"]:focus, input[type="password"]:focus {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     clip-path: polygon(
         50% 0%, /* Top center */
-        100% 0%, /* Top right */
+        100% 0%, /* Top - right */
         100% 85%, /* Bottom right */
         50% 100%, /* Bottom center (less pointed chin) */
         0% 85%, /* Bottom left */
