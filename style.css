@@ -20,14 +20,6 @@ body {
     overflow: hidden;
 }
 
-.sigmar-regular {
-    font-family: 'Sigmar', cursive;
-    font-size: 2rem;
-    font-weight: 100;
-    text-align: center;
-    color: rgb(14, 11, 11);
-    margin-bottom: 20px;
-}
 .background video {
     min-width: 100%;
     min-height: 100%;
@@ -99,8 +91,70 @@ body {
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     opacity: 0;
 }
+/*fantastik temaya uygun bir font belirle*/
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
 
-/* Prompt:Açıldığında login formu görünür hale getir */
+/* Heading style already has the font */
+.login-container h2 {
+    font-family: 'Cinzel Decorative', fantasy;
+    color: #4b8fd8; 
+    font-size: 30px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
+    margin-bottom: 15px;
+    letter-spacing: 1.5px; /* Add spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add subtle shadow to improve contrast */
+}
+
+/* Input alanları için stil - adding font */
+input[type="text"], input[type="password"] {
+    font-family: 'Cinzel Decorative', fantasy;
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Input alanları odaklandığında stil */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+    outline: none;
+}
+
+/* Login butonu için stil - adding font */
+#loginButton {
+    font-family: 'Cinzel Decorative', fantasy;
+    width: 100%;
+    background-color: #3aa0e4;
+    color: white;
+    padding: 14px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    letter-spacing: 1.5px; /* Add spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add subtle shadow to improve contrast */
+}
+
+/* Login butonuna hover olduğunda stil */
+#loginButton:hover {
+    background-color: rgb(224, 56, 56);
+    transform: scale(1.02);
+}
+
+/* Login butonuna basıldığında stil */
+#loginButton:active {
+    background-color: #edf7c7;
+    transform: scale(0.98);
+}/* Prompt:Açıldığında login formu görünür hale getir */
 .show {
     display: flex !important;
     opacity: 1;
@@ -290,49 +344,3 @@ body {
     border-radius: 0; /* Remove the rounded corners */
 }
 
-/* Input alanları için stil */
-input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-/* Input alanları odaklandığında stil */
-input[type="text"]:focus, input[type="password"]:focus {
-    border-color: #4CAF50; /* Avatar Earth Kingdom yeşili */
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
-    outline: none;
-}
-
-/* Login butonu için stil */
-#loginButton {
-    width: 100%;
-    background-color: #3b83b3; /* Avatar Earth Kingdom yeşili */
-    color: white;
-    padding: 14px 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-/* Login butonuna hover olduğunda stil */
-#loginButton:hover {
-    background-color: rgb(189, 76, 76); /* Biraz daha koyu yeşil */
-    transform: scale(1.02);
-}
-
-/* Login butonuna basıldığında stil */
-#loginButton:active {
-    background-color: #e3f4a7;
-    transform: scale(0.98);
-}
