@@ -1,77 +1,346 @@
-/* 🌌 Default Background */
 body {
-    background-image: url('1_korra_state.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-    
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: black;
+    overflow: hidden;
+}
+/*prompt:Arka Plana bir video koy ve tüm ekranı kaplasın*/
+.background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transform: translateX(0px); /* Shift background further to the left */
+    overflow: hidden;
 }
 
-/* 🔥 Centered Login Form */
-.container {
-    text-align: center;
-    margin-top: 15%;
-    color: white;
+.background video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
 }
 
-/* 🌊 Input Fields */
-input {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 250px;
-    border: 2px solid white;
-    border-radius: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-}
-
-/* 🌀 Shaking Effect for Background While Typing */
-body:has(.bender-form:focus-within) {
-    animation: shake 0.5s infinite;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-}
-
-/* 🔥 Element-Based Hover Animation for Login Button */
-.login-btn {
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
+.symbol-container {
+    position: absolute;
+    top: 75%; /* Lowered position */
+    left: 50%; /* Further to the left */
+    transform: translate(-50%, -50%);
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    background-color: white;
-    color: black;
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */
+    border-radius: 20px; /* Rounded corners for the container */
 }
 
-/* 🌊 Water Bender */
-.login-btn:hover {
-    background-color: #00aaff; /* Water */
+/* Glowing effects for different symbols */
+.symbol-container.earth {
+    box-shadow: 0 0 15px 5px green; /* Rounded corners for the shadow */
+}
+
+.symbol-container.fire {
+    box-shadow: 0 0 15px 5px red; /* Rounded corners for the shadow */
+}
+
+.symbol-container.air {
+    box-shadow: 0 0 15px 5px yellow; /* Rounded corners for the shadow */
+}
+
+.symbol-container.water {
+    box-shadow: 0 0 15px 5px blue; /* Rounded corners for the shadow */
+}
+
+.symbol-container img {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 15px;
+        
+        transition: transform 0.3s ease-in-out;
+        filter: brightness(1.2) saturate(1.5);
+}
+
+/*Prompt: Avatar sembolune imleci getirdiğimde büyümesi gerek*/
+.symbol-container:hover img {
+    transform: scale(1.1);
+}
+
+
+.login-container {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+/*fantastik temaya uygun bir font belirle*/
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+
+/* Heading style already has the font */
+.login-container h2 {
+    font-family: 'Cinzel Decorative', fantasy;
+    color: #4b8fd8; 
+    font-size: 30px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
+    margin-bottom: 15px;
+    letter-spacing: 1.5px; /* Add spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add subtle shadow to improve contrast */
+}
+
+/* Input alanları için stil - adding font */
+input[type="text"], input[type="password"] {
+    font-family: 'Cinzel Decorative', fantasy;
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Input alanları odaklandığında stil */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+    outline: none;
+}
+
+/* Login butonu için stil - adding font */
+#loginButton {
+    font-family: 'Cinzel Decorative', fantasy;
+    width: 100%;
+    background-color: #3aa0e4;
     color: white;
+    padding: 14px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    letter-spacing: 1.5px; /* Add spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add subtle shadow to improve contrast */
 }
 
-/* 🔥 Fire Bender */
-.login-btn:hover:nth-child(2) {
-    background-color: #ff4500; /* Fire */
+/* Login butonuna hover olduğunda stil */
+#loginButton:hover {
+    background-color: rgb(224, 56, 56);
+    transform: scale(1.02);
 }
 
-/* 🌱 Earth Bender */
-.login-btn:hover:nth-child(3) {
-    background-color: brown; /* Earth */
+/* Login butonuna basıldığında stil */
+#loginButton:active {
+    background-color: #edf7c7;
+    transform: scale(0.98);
+}/* Prompt:Açıldığında login formu görünür hale getir */
+.show {
+    display: flex !important;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
-/* 💨 Air Bender */
-.login-btn:hover:nth-child(4) {
-    background-color: #aaaaaa; /* Air */
+/*Prompt: Login formunu gizle*/
+.login-container.hide {
+    transform: translate(-50%, -50%) scale(0);
 }
 
-/* 🌌 Change Website Background on Login Click */
-.login-btn:focus {
-    background-image: url('2_korra.jpeg');
+.hidden {
+    display: none;
 }
+
+.avatar-head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.face {
+    position: relative;
+    width: 120px;
+    height: 150px;
+    background: #FFDFC4;
+    border-radius: 60% / 70%; /* Daha oval bir kafa şekli */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(
+        50% 0%, /* Top center */
+        100% 0%, /* Top right */
+        100% 85%, /* Bottom right */
+        50% 100%, /* Bottom center (less pointed chin) */
+        0% 85%, /* Bottom left */
+        0% 0% /* Top left */
+    );
+}
+
+/* Aang'in başındaki oku çiz */
+.face::before {
+    content: "";
+    position: absolute;
+    top: -4.7px;
+    left: 50%;
+    width: 30px;
+    height: 60px;
+    background: #7EC8E3; /* Açık gök mavisi */
+    clip-path: polygon(
+        50% 0%, /* Top point */
+        70% 20%, /* Right upper curve */
+        100% 40%, /* Far right point */
+        80% 40%, /* Right middle point */
+        60% 60%, /* Right curve inward */
+        60% 100%, /* Bottom right point */
+        35% 100%, /* Bottom left point */
+        40% 60%, /* Left curve inward */
+        20% 40%, /* Left middle point */
+        0% 40%, /* Far left point */
+        30% 20% /* Left upper curve */
+    );
+    transform: translateX(-50%) rotate(180deg); /* Center the arrow and rotate 180 degrees */
+    border-radius: 50% 50% 0 0; /* Add some curve to the top */
+}
+.face::before {
+    transition: background 0.3s ease-in-out; /* Geçiş efekti */
+}
+
+.face:hover::before {
+    background: white;
+}
+/* Prompt:Gözlerin bebeği mouse üstüne getirildiğinde kaybolsun */
+.eye {
+    width: 15px;
+    height: 15px;
+    background: white; /* Göz rengi */
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.eye::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: black; /* prompt:Göz bebeği siyah olsun */
+    border-radius: 50%;
+    transition: opacity 0.3s ease-in-out;
+}
+.eye.white-pupil::after {
+    background: white; /* Yüze fare gelince göz bebeği beyaz olur */
+}
+
+
+
+.eye.left {
+    position: absolute;
+    top: 60px;
+    left: 25px;
+}
+
+.eye.right {
+    position: absolute;
+    top: 60px;
+    right: 25px;
+}
+
+/* Prompt: Kaşlar ekle */
+.eyebrow {
+    position: absolute;
+    top: 50px; /* Adjusted position to make them visible */
+    width: 25px;
+    height: 3px; /* Thinner for a more subtle look */
+    background: black; /* Kaşlar siyah */
+    border-radius: 2px; /* Slightly rounded edges */
+    z-index: 1; /* Ensure eyebrows are above the face */
+}
+
+.eyebrow.left {
+    left: 20px;
+    transform: rotate(20deg); /* Frowning angle with inner end closer to the eye */
+}
+
+.eyebrow.right {
+    right: 20px;
+    transform: rotate(-20deg); /* Frowning angle with inner end closer to the eye */
+}
+
+/* Daha çatık kaşlar */
+.face.touch .eyebrow.left {
+    transform: rotate(30deg); /* More frowning angle */
+}
+
+.face.touch .eyebrow.right {
+    transform: rotate(-30deg); /* More frowning angle */
+}
+
+/* Ağız çiz.*/
+.mouth {
+    position: absolute;
+    bottom: 30px;
+    left: 50%; /* Centers the mouth horizontally */
+    transform: translateX(-50%); /* Adjusts for the width of the mouth */
+    width: 40px;
+    height: 3px;
+    border-radius: 0 0 20px 20px;
+    background: black;
+}
+
+/* Burun */
+.nose {
+    position: absolute;
+    top: 90px; /* Lowered position */
+    left: 50%;
+    width: 10px;
+    height: 5px;
+    border: 2px solid #181410; /* Border color for the nose */
+    border-top: none; /* Remove the top border */
+    background: transparent; /* Transparent background */
+    border-radius: 0 0 50% 50%; /* Round shape at the bottom */
+    transform: translateX(-50%);
+}
+
+/* Dişler */
+.teeth {
+    position: absolute;
+    bottom: 25px; /* Slightly above the mouth */
+    left: 50%;
+    width: 30px;
+    height: 10px;
+    background: white; /* Dişler beyaz */
+    border-radius: 2px;
+    display: none; /* Hidden by default */
+    transform: translateX(-50%);
+}
+
+/* Kızgın yüz */
+.face.touch .teeth {
+    display: block; /* Show teeth when angry */
+}
+
+.face.touch .mouth {
+    height: 5px; /* Make the mouth wider */
+    border-radius: 0; /* Remove the rounded corners */
+}
+
