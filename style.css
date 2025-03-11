@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -91,8 +93,6 @@ body {
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     opacity: 0;
 }
-/*fantastik temaya uygun bir font belirle*/
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
 
 /* Heading style already has the font */
 .login-container h2 {
@@ -164,6 +164,11 @@ input[type="text"]:focus, input[type="password"]:focus {
 /*Prompt: Login formunu gizle*/
 .login-container.hide {
     transform: translate(-50%, -50%) scale(0);
+}
+
+/* Add this new rule to hide the login form when 'h' or 'H' is pressed */
+.login-container.hide {
+    display: none;
 }
 
 .hidden {
@@ -268,7 +273,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 /* Prompt: Kaşlar ekle */
 .eyebrow {
     position: absolute;
-    top: 50px; /* Adjusted position to make them visible */
+    top: 50px; /* Adjust position to make them visible */
     width: 25px;
     height: 3px; /* Thinner for a more subtle look */
     background: black; /* Kaşlar siyah */
@@ -342,5 +347,15 @@ input[type="text"]:focus, input[type="password"]:focus {
 .face.touch .mouth {
     height: 5px; /* Make the mouth wider */
     border-radius: 0; /* Remove the rounded corners */
+}
+
+.clock {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: 'Cinzel Decorative', fantasy;
+    font-size: 24px;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
