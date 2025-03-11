@@ -124,27 +124,38 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         login();
     });
-    //Prompt: Login formu ekle
+    //Prompt: Login formu ekle && admin admin olursa giriş bilgileri table html sayfasına yönlendirilecek
     function login() {
-        background.play();
-        
+        const background = document.getElementById("avatarBackground");
+        const loginForm = document.getElementById("loginForm");
+    
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
-
-        if (username && password) {
+    
+        // Kullanıcı adı ve şifre boş olamaz
+        if (!username || !password) {
+            alert("Kullanıcı adı ve şifre boş olamaz!");
+            background.pause();
+            return;
+        }
+    
+        // Kullanıcı adı ve şifre doğruysa giriş yap
+        if (username === "admin" && password === "admin") {
             userLoggedIn = true;
-            incrementLoginAttempts(username, password); // Tüm giriş bilgilerini kaydet
-
+            incrementLoginAttempts(username, password); // Giriş bilgilerini kaydet
+    
             loginForm.classList.remove("show");
             loginForm.classList.add("hidden");
-
+    
             background.play();
-            userLoggedIn = true;
+    
+            // ✅ Video bittiğinde yönlendirme yap
+            background.onended = function() {
+                window.location.href = "table.html"; 
+            };
         } else {
+            alert("Hatalı kullanıcı adı veya şifre!");
             background.pause();
-            userLoggedIn = false;
-            alert("Kullanıcı adı ve şifre boş olamaz!");
-            videopaused = true;
         }
     }
     // Prompt: saat ekle
