@@ -7,7 +7,7 @@ namespace MyRazorApp.Models
     {
         private static int _idCounter = 0;
 
-        // Varsayılan yapıcı artık ID üretmiyor
+        
         public ClassInformationModel()
         {
             ClassName = string.Empty;
@@ -15,7 +15,7 @@ namespace MyRazorApp.Models
         }
 
         public int Id { get; set; }
-        
+        //prompt: Error messages must be shown when the user tries to add a class without entering a class name, student count, or class description
         [Required(ErrorMessage = "Class Name is required.")]
         public string ClassName { get; set; }
         
@@ -25,7 +25,7 @@ namespace MyRazorApp.Models
         [Required(ErrorMessage = "Class Description is required.")]
         public string ClassDescription { get; set; }
         
-        // Yeni nesne oluştururken ID üretimi için statik metot
+        // Prompt: ID auto increment when a new object is created
         public static ClassInformationModel Create(string className, int studentCount, string classDescription)
         {
             return new ClassInformationModel
