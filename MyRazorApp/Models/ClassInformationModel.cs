@@ -1,31 +1,40 @@
 // Prompt: create a new class named ClassInformationModel in the Models folder and add the following properties to it:
 // Id, ClassName, StudentCount, ClassDescription Id must auto Increment when a new object is created. add required and range properties
-
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
-
 namespace MyRazorApp.Models
 {
     public class ClassInformationModel
     {
-        private static int _idCounter = 1;
+        private static int _idCounter = 0;
 
-        public int Id { get; private set; }
-
+        // Varsayılan yapıcı artık ID üretmiyor
         public ClassInformationModel()
         {
-            Id = Interlocked.Increment(ref _idCounter);
-            ClassName = string.Empty; // Initialize ClassName with a default value
-            ClassDescription = string.Empty; // Initialize ClassDescription with a default value
+            ClassName = string.Empty;
+            ClassDescription = string.Empty;
         }
 
-        [Required]
+        public int Id { get; set; }
+        
+        [Required(ErrorMessage = "Class Name is required.")]
         public string ClassName { get; set; }
         
-        [Range(10, 100)]
+        [Range(10, 100, ErrorMessage = "Student Count must be between 10 and 100.")]
         public int StudentCount { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Class Description is required.")]
         public string ClassDescription { get; set; }
+        
+        // Yeni nesne oluştururken ID üretimi için statik metot
+        public static ClassInformationModel Create(string className, int studentCount, string classDescription)
+        {
+            return new ClassInformationModel
+            {
+                Id = Interlocked.Increment(ref _idCounter),
+                ClassName = className,
+                StudentCount = studentCount,
+                ClassDescription = classDescription
+            };
+        }
     }
 }

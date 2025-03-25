@@ -42,32 +42,35 @@ namespace MyRazorApp.Pages{
 
         public void OnGet()
         {
-
+            // No changes needed here
         }
 
         public IActionResult OnPostAdd()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+{
+    if (!ModelState.IsValid)
+    {
+        return Page();
+    }
 
-            // Check if a class with the same name already exists
-            if (ClassList.Any(c => c.ClassName == ClassInformation.ClassName))
-            {
-                ModelState.AddModelError("ClassInformation.ClassName", "This class already exists!");
-                return Page();
-            }
+    // Aynı sınıf adı kontrolü
+    if (ClassList.Any(c => c.ClassName == ClassInformation.ClassName))
+    {
+        ModelState.AddModelError("ClassInformation.ClassName", "This class already exists!");
+        return Page();
+    }
 
-            ClassList.Add(new ClassInformationModel
-            {
-                ClassName = ClassInformation.ClassName,
-                StudentCount = ClassInformation.StudentCount,
-                ClassDescription = ClassInformation.ClassDescription
-            });
+    // Yalnızca ekleme işlemi yapıldığında yeni nesne üretimi gerçekleşir.
+    var newClass = ClassInformationModel.Create(
+        ClassInformation.ClassName, 
+        ClassInformation.StudentCount, 
+        ClassInformation.ClassDescription
+    );
 
-            return RedirectToPage();
-        }
+    ClassList.Add(newClass);
+
+    return RedirectToPage();
+}
+
 
         public IActionResult OnPostDelete(int id)
         {
@@ -85,7 +88,13 @@ namespace MyRazorApp.Pages{
             var classToEdit = ClassList.FirstOrDefault(c => c.Id == id);
             if (classToEdit != null)
             {
-                ClassInformation = classToEdit;
+                ClassInformation = new ClassInformationModel
+                {
+                    Id = classToEdit.Id,
+                    ClassName = classToEdit.ClassName,
+                    StudentCount = classToEdit.StudentCount,
+                    ClassDescription = classToEdit.ClassDescription
+                };
                 IsEdit = true;
             }
             return Page();
