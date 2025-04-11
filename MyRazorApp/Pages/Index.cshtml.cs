@@ -1,137 +1,191 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyRazorApp.Helpers;
 using MyRazorApp.Models;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace MyRazorApp.Pages
 {
     public class IndexModel : PageModel
     {
         private const string SessionKeyClassList = "ClassList";
+        private const string SessionKeyExportOpts = "ExportOptions";
+        private const string SessionKeyIsEdit = "IsEdit";
+        private readonly IWebHostEnvironment _environment;
 
         [BindProperty]
-        public ClassInformationModel ClassInformation { get; set; } = new ClassInformationModel
-        {
-            ClassName = string.Empty,
-            ClassDescription = string.Empty
-        };
+        public ClassInformationModel ClassInformation { get; set; } = new();
 
-        public List<ClassInformationModel> ClassList { get; set; } = new List<ClassInformationModel>();
+        public List<ClassInformationModel> ClassList { get; set; } = new();
+        public List<ClassInformationTableModel> ClassListTable { get; set; } = new();
 
-        public List<ClassInformationTableModel> ClassListTable { get; set; } = new List<ClassInformationTableModel>();
+        [BindProperty]
+        public ExportOptionsModel ExportOptions { get; set; } = new();
 
         public bool IsEdit { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string FilterBy { get; set; }
+        public string FilterBy { get; set; } = string.Empty;
+
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
+
         public int PageSize { get; set; } = 10;
         public int TotalPages { get; set; }
 
-
-        public IndexModel()
+        public IndexModel(IWebHostEnvironment environment)
         {
-            FilterBy = string.Empty;
-        }
-
-        private void GenerateSyntheticData()
-        {
-            if (ClassList.Count == 0)
-            {
-                for (int i = 1; i <= 100; i++)
-                {
-                    ClassList.Add(ClassInformationModel.Create(
-                        $"Class {i}",
-                        new Random().Next(10, 101),
-                        $"Description for Class {i}"
-                    ));
-                }
-                SaveClassListToSession();
-            }
+            _environment = environment;
         }
 
         public void OnGet()
         {
             LoadClassListFromSession();
+            IsEdit = HttpContext.Session.GetObjectFromJson<bool?>(SessionKeyIsEdit) ?? false;
 
-            if (ClassList.Count == 0)
+            // prompt: It must only generate data if there is no data in the list
+            if (!ClassList.Any())
             {
                 GenerateSyntheticData();
             }
 
-            IEnumerable<ClassInformationModel> filteredList = ClassList;
-
-            // Apply filtering
-            if (!string.IsNullOrEmpty(FilterBy))
+            LoadClassListTable();
+        }
+        // Prompt: a method for generate synthetic data for the class list.
+        private void GenerateSyntheticData()
+        {
+            var random = new Random();
+            for (int i = 1; i <= 100; i++)
             {
-                filteredList = ClassList.Where(c =>
+                ClassList.Add(new ClassInformationModel
+                {
+                    Id = i,
+                    ClassName = $"Class {i}",
+                    StudentCount = random.Next(10, 101),
+                    ClassDescription = $"Description for Class {i}"
+                });
+            }
+            SaveClassListToSession();
+        }
+
+        private void LoadClassListTable()
+        {
+            var filtered = string.IsNullOrEmpty(FilterBy)
+                ? ClassList
+                : ClassList.Where(c =>
                     c.ClassName.Contains(FilterBy, StringComparison.OrdinalIgnoreCase) ||
-                    c.ClassDescription.Contains(FilterBy, StringComparison.OrdinalIgnoreCase)
-                );
+                    c.ClassDescription.Contains(FilterBy, StringComparison.OrdinalIgnoreCase));
+
+            TotalPages = (int)Math.Ceiling(filtered.Count() / (double)PageSize);
+            TotalPages = TotalPages == 0 ? 1 : TotalPages;
+            PageNumber = Math.Clamp(PageNumber, 1, TotalPages);
+
+            ClassListTable = filtered
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .Select(c => new ClassInformationTableModel
+                {
+                    Id = c.Id,
+                    ClassName = c.ClassName,
+                    StudentCount = c.StudentCount,
+                    ClassDescription = c.ClassDescription
+                })
+                .ToList();
+        }
+
+        public IActionResult OnGetToggleColumn(string columnName)
+        {
+            LoadClassListFromSession();
+
+            switch (columnName.ToLower())
+            {
+                case "classname":
+                    ExportOptions.ExportClassName = !ExportOptions.ExportClassName;
+                    break;
+                case "studentcount":
+                    ExportOptions.ExportStudentCount = !ExportOptions.ExportStudentCount;
+                    break;
+                case "classdescription":
+                    ExportOptions.ExportClassDescription = !ExportOptions.ExportClassDescription;
+                    break;
             }
 
-            // Apply pagination
-            TotalPages = (int)Math.Ceiling(filteredList.Count() / (double)PageSize);
-            var pagedList = filteredList.Skip((PageNumber - 1) * PageSize).Take(PageSize);
+            HttpContext.Session.SetObjectAsJson(SessionKeyExportOpts, ExportOptions);
+            return RedirectToPage(new { FilterBy, PageNumber });
+        }
+        //prompt: A method for exporting a file when the user clicks the export button.
+        public IActionResult OnPostExportJson()
+        {
+            LoadClassListFromSession();
 
-            // Map to ClassInformationTableModel
-            ClassListTable = pagedList.Select(c => new ClassInformationTableModel
+            bool exportAllColumns = !ExportOptions.ExportClassName 
+                                    && !ExportOptions.ExportStudentCount 
+                                    && !ExportOptions.ExportClassDescription;
+
+            var dataToExport = ExportOptions.ExportOnlyFiltered && !string.IsNullOrEmpty(FilterBy)
+                ? ClassList.Where(c =>
+                    c.ClassName.Contains(FilterBy, StringComparison.OrdinalIgnoreCase) ||
+                    c.ClassDescription.Contains(FilterBy, StringComparison.OrdinalIgnoreCase))
+                : ClassList;
+
+            var dir = Path.Combine(_environment.ContentRootPath, "json");
+            Directory.CreateDirectory(dir);
+            
+            var fileName = $"export{Guid.NewGuid().ToString("N")[..8]}.json";
+            var filePath = Path.Combine(dir, fileName);
+
+            var flags = new Dictionary<string, bool>
             {
-                Id = c.Id,
-                ClassName = c.ClassName,
-                StudentCount = c.StudentCount,
-                ClassDescription = c.ClassDescription,
-            }).ToList();
+                ["ClassName"] = exportAllColumns || ExportOptions.ExportClassName,
+                ["StudentCount"] = exportAllColumns || ExportOptions.ExportStudentCount,
+                ["ClassDescription"] = exportAllColumns || ExportOptions.ExportClassDescription
+            };
+
+            Utils.Instance.ExportToJson(
+                dataToExport,
+                filePath,
+                Utils.Instance.CreatePropertySelector<ClassInformationModel>(flags)
+            );
+
+            TempData["ExportSuccess"] = $"Exported {dataToExport.Count()} records to {fileName}";
+            return RedirectToPage();
         }
 
         public IActionResult OnPostAdd()
         {
+            if (!ModelState.IsValid) 
+                return Page();
+
             LoadClassListFromSession();
 
-            if (!ModelState.IsValid)
+            int newId = ClassList.Any() ? ClassList.Max(c => c.Id) + 1 : 1;
+            ClassList.Add(new ClassInformationModel
             {
-                ModelState.AddModelError(string.Empty, "Invalid input. Please check the form fields.");
-                return Page();
-            }
-
-            if (ClassList.Any(c => c.ClassName == ClassInformation.ClassName))
-            {
-                ModelState.AddModelError("ClassInformation.ClassName", "This class already exists!");
-                return Page();
-            }
-
-            var newClass = new ClassInformationModel
-            {
-                Id = ClassList.Count > 0 ? ClassList.Max(c => c.Id) + 1 : 1,
+                Id = newId,
                 ClassName = ClassInformation.ClassName,
                 StudentCount = ClassInformation.StudentCount,
                 ClassDescription = ClassInformation.ClassDescription
-            };
+            });
 
-            ClassList.Add(newClass);
             SaveClassListToSession();
-
-            // Debugging log
-            Console.WriteLine("Class added successfully: " + JsonSerializer.Serialize(newClass));
-
-            return RedirectToPage("./Index");
+            return RedirectToPage();
         }
 
         public IActionResult OnPostDelete(int id)
         {
             LoadClassListFromSession();
 
-            var classToRemove = ClassList.FirstOrDefault(c => c.Id == id);
-            if (classToRemove != null)
+            var item = ClassList.FirstOrDefault(c => c.Id == id);
+            if (item != null)
             {
-                ClassList.Remove(classToRemove);
+                ClassList.Remove(item);
+                SaveClassListToSession();
             }
-
-            SaveClassListToSession();
 
             return RedirectToPage();
         }
@@ -139,87 +193,52 @@ namespace MyRazorApp.Pages
         public IActionResult OnPostEdit(int id)
         {
             LoadClassListFromSession();
-
-            if (ClassList == null || !ClassList.Any())
+            var item = ClassList.FirstOrDefault(c => c.Id == id);
+            if (item != null)
             {
-                ModelState.AddModelError(string.Empty, "Class list is empty. Please try again.");
-                return Page();
-            }
-
-            var classToEdit = ClassList.FirstOrDefault(c => c.Id == id);
-            if (classToEdit != null)
-            {
-                ClassInformation = new ClassInformationModel
-                {
-                    Id = classToEdit.Id,
-                    ClassName = classToEdit.ClassName,
-                    StudentCount = classToEdit.StudentCount,
-                    ClassDescription = classToEdit.ClassDescription
-                };
+                ClassInformation = item;
                 IsEdit = true;
+                HttpContext.Session.SetObjectAsJson(SessionKeyIsEdit, true);
             }
-            else
-            {
-                IsEdit = false; // Reset IsEdit if the class is not found
-            }
-
             return Page();
         }
 
         public IActionResult OnPostUpdate()
         {
-            LoadClassListFromSession();
-
             if (!ModelState.IsValid)
             {
-                return Page();
+                IsEdit = true;
+                HttpContext.Session.SetObjectAsJson(SessionKeyIsEdit, true);
+                LoadClassListFromSession(); // Prompt: Load the class list again to show validation errors
             }
 
-            var classToUpdate = ClassList.FirstOrDefault(c => c.Id == ClassInformation.Id);
-            if (classToUpdate != null)
+            LoadClassListFromSession();
+            var item = ClassList.FirstOrDefault(c => c.Id == ClassInformation.Id);
+            if (item != null)
             {
-                classToUpdate.ClassName = ClassInformation.ClassName;
-                classToUpdate.StudentCount = ClassInformation.StudentCount;
-                classToUpdate.ClassDescription = ClassInformation.ClassDescription;
+                item.ClassName = ClassInformation.ClassName;
+                item.StudentCount = ClassInformation.StudentCount;
+                item.ClassDescription = ClassInformation.ClassDescription;
+                SaveClassListToSession();
             }
 
-            SaveClassListToSession();
-
-            // Debugging log
-            Console.WriteLine("Class updated successfully: " + JsonSerializer.Serialize(classToUpdate));
-
-            IsEdit = false; // Reset IsEdit after updating
-            return RedirectToPage("./Index");
+            IsEdit = false;
+            HttpContext.Session.Remove(SessionKeyIsEdit);
+            return RedirectToPage();
         }
 
         private void LoadClassListFromSession()
         {
-            ClassList = HttpContext.Session.GetObjectFromJson<List<ClassInformationModel>>(SessionKeyClassList) ?? new List<ClassInformationModel>();
-
-            // Debugging log
-            Console.WriteLine("Loaded ClassList from session: " + JsonSerializer.Serialize(ClassList));
+            ClassList = HttpContext.Session.GetObjectFromJson<List<ClassInformationModel>>(SessionKeyClassList)
+                        ?? new List<ClassInformationModel>();
+            ExportOptions = HttpContext.Session.GetObjectFromJson<ExportOptionsModel>(SessionKeyExportOpts)
+                            ?? new ExportOptionsModel();
         }
 
         private void SaveClassListToSession()
         {
             HttpContext.Session.SetObjectAsJson(SessionKeyClassList, ClassList);
-
-            // Debugging log
-            Console.WriteLine("Saved ClassList to session: " + JsonSerializer.Serialize(ClassList));
+            HttpContext.Session.SetObjectAsJson(SessionKeyExportOpts, ExportOptions);
         }
-    }
-}
-
-public static class SessionHelper
-{
-    public static void SetObjectAsJson(this ISession session, string key, object value)
-    {
-        session.SetString(key, JsonSerializer.Serialize(value));
-    }
-
-    public static T? GetObjectFromJson<T>(this ISession session, string key)
-    {
-        var value = session.GetString(key);
-        return value == null ? default : JsonSerializer.Deserialize<T>(value);
     }
 }

@@ -3,38 +3,17 @@
 using System.ComponentModel.DataAnnotations;
 namespace MyRazorApp.Models
 {
-    public class ClassInformationModel
-    {
-        private static int _idCounter = 0;
+   public class ClassInformationModel
+{
+    public int Id { get; set; }
 
-        public ClassInformationModel()
-        {
-            Id = Interlocked.Increment(ref _idCounter);
-            ClassName = string.Empty;
-            ClassDescription = string.Empty;
-        }
+    [Required(ErrorMessage = "Class Name is required.")]
+    public string ClassName { get; set; }
 
-        public int Id { get; set; }
-        //prompt: Error messages must be shown when the user tries to add a class without entering a class name, student count, or class description
-        [Required(ErrorMessage = "Class Name is required.")]
-        public string ClassName { get; set; }
-        
-        [Range(10, 100, ErrorMessage = "Student Count must be between 10 and 100.")]
-        public int StudentCount { get; set; }
-        
-        [Required(ErrorMessage = "Class Description is required.")]
-        public string ClassDescription { get; set; }
-        
-        // Prompt: ID auto increment when a new object is created
-        public static ClassInformationModel Create(string className, int studentCount, string classDescription)
-        {
-            return new ClassInformationModel
-            {
-                Id = Interlocked.Increment(ref _idCounter),
-                ClassName = className,
-                StudentCount = studentCount,
-                ClassDescription = classDescription
-            };
-        }
-    }
+    [Range(10, 100, ErrorMessage = "Student Count must be between 10-100.")]
+    public int StudentCount { get; set; }
+
+    [Required(ErrorMessage = "Description is required.")]
+    public string ClassDescription { get; set; }
+}
 }

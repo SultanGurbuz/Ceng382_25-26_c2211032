@@ -14,7 +14,7 @@ namespace MyRazorApp.Pages
 
         public void OnGet()
         {
-            // Load the list from session
+           
             ClassList = HttpContext.Session.GetObjectFromJson<List<ClassInformationModel>>(SessionKey) ?? new List<ClassInformationModel>();
         }
 
@@ -26,10 +26,10 @@ namespace MyRazorApp.Pages
                 return Page();
             }
 
-            // Load the list from session
+       
             ClassList = HttpContext.Session.GetObjectFromJson<List<ClassInformationModel>>(SessionKey) ?? new List<ClassInformationModel>();
 
-            // Add new class
+           
             var newClass = new ClassInformationModel
             {
                 ClassName = className,
@@ -38,7 +38,7 @@ namespace MyRazorApp.Pages
             };
             ClassList.Add(newClass);
 
-            // Save the updated list to session
+          
             HttpContext.Session.SetObjectAsJson(SessionKey, ClassList);
 
             return RedirectToPage();
@@ -52,19 +52,19 @@ namespace MyRazorApp.Pages
                 return Page();
             }
 
-            // Load the list from session
+         
             ClassList = HttpContext.Session.GetObjectFromJson<List<ClassInformationModel>>(SessionKey) ?? new List<ClassInformationModel>();
 
-            // Find the class to edit
+         
             var classToEdit = ClassList.FirstOrDefault(c => c.ClassName == originalClassName);
             if (classToEdit != null)
             {
-                // Update class details
+         
                 classToEdit.ClassName = newClassName;
                 classToEdit.StudentCount = newStudentCount;
                 classToEdit.ClassDescription = newClassDescription;
 
-                // Save the updated list to session
+
                 HttpContext.Session.SetObjectAsJson(SessionKey, ClassList);
             }
 

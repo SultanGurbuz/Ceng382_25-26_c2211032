@@ -1,31 +1,25 @@
-html {
-  font-size: 14px;
+/* CSS */
+.column-toggle-btn {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.column-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+/*prompt: add green color to the column header and selected column header in the table.*/
+
+.column-header {
+  background-color: white !important; 
+  color: #28a745 !important; 
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.column-header.selected {
+  background-color: #28a745 !important; 
+  color: white !important;
 }

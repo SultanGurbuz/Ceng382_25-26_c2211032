@@ -18,7 +18,6 @@ C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Deb
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\scopedcss\bundle\MyRazorApp.styles.css
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\scopedcss\projectbundle\MyRazorApp.bundle.scp.css
-C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\compressed\zx871nmwpl-b9sayid5wm.gz
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\compressed\l7xfqyekqz-c2jlpeoesf.gz
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\compressed\cxthx5qi8z-aexeepp0ev.gz
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\compressed\z5k5g9fy8l-ausgxo2sd3.gz
@@ -99,3 +98,13 @@ C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Deb
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\MyRazorApp.csproj.AssemblyReference.cache
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\MyRazorApp.csproj.Up2Date
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export1.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export2.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\obj\Debug\net9.0\compressed\zx871nmwpl-smd3y31adg.gz
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export3.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export4.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export5.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export6.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export91663762.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export4cc46d48.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export1f914432.json

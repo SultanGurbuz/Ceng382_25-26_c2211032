@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ce2PxJygt6QDvboULy4NBvlQ3k1dq/Pt//snPM9Qpro=",
+  "Hash": "rcsehSjSrTgEjthO1SgCoivf/rsIBae3B8Yl2J8c8CE=",
   "Source": "MyRazorApp",
   "BasePath": "_content/MyRazorApp",
   "Mode": "Default",
@@ -1340,12 +1340,12 @@
       "OriginalItemSpec": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-b9sayid5wm.gz",
+      "Identity": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-smd3y31adg.gz",
       "SourceId": "MyRazorApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/MyRazorApp",
-      "RelativePath": "css/site#[.{fingerprint=b9sayid5wm}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=smd3y31adg}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1354,8 +1354,8 @@
       "RelatedAsset": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "0suozzrugb",
-      "Integrity": "0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=",
+      "Fingerprint": "l8vvx85kdv",
+      "Integrity": "5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css"
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "b9sayid5wm",
-      "Integrity": "j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=",
+      "Fingerprint": "smd3y31adg",
+      "Integrity": "PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -2728,13 +2728,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.b9sayid5wm.css",
-      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-b9sayid5wm.gz",
+      "Route": "css/site.css",
+      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-smd3y31adg.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003134796238"
+          "Quality": "0.003039513678"
         }
       ],
       "ResponseHeaders": [
@@ -2744,19 +2744,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "328"
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -2772,26 +2772,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "W/\"PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "b9sayid5wm"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css",
+      "Route": "css/site.css",
       "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2801,7 +2793,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "587"
         },
         {
           "Name": "Content-Type",
@@ -2809,11 +2801,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css.gz",
+      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-smd3y31adg.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "328"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.smd3y31adg.css",
+      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-smd3y31adg.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.003039513678"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "328"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "smd3y31adg"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.smd3y31adg.css",
+      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "587"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2823,7 +2960,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "smd3y31adg"
         },
         {
           "Name": "label",
@@ -2831,13 +2968,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-PLr76vLdU1v/O0Y+StpHtA6FQA3LMjkCd8JO4R3dHhM="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css.gz",
-      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-b9sayid5wm.gz",
+      "Route": "css/site.smd3y31adg.css.gz",
+      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-smd3y31adg.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2846,7 +2983,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "328"
         },
         {
           "Name": "Content-Type",
@@ -2854,11 +2991,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
+          "Value": "Fri, 11 Apr 2025 17:41:30 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2876,7 +3013,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "smd3y31adg"
         },
         {
           "Name": "label",
@@ -2884,144 +3021,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-b9sayid5wm.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.003134796238"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "318"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "667"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\compressed\\zx871nmwpl-b9sayid5wm.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "318"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 04 Apr 2025 14:37:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y="
+          "Value": "sha256-5eDqUFeIp+4GC9gBCnv9p0W3hK+S/ggL2uFQamUksFU="
         }
       ]
     },
