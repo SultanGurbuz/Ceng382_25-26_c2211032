@@ -2,21 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Helpers;
 using MyRazorApp.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyRazorApp.Pages
 {
-    public class IndexModel : PageModel
+    public class DashboardModel : PageModel  // Changed from IndexModel to DashboardModel
     {
         private const string SessionKeyClassList = "ClassList";
         private const string SessionKeyExportOpts = "ExportOptions";
         private const string SessionKeyIsEdit = "IsEdit";
-        private readonly IWebHostEnvironment _environment;
 
         [BindProperty]
         public ClassInformationModel ClassInformation { get; set; } = new();
@@ -38,25 +36,26 @@ namespace MyRazorApp.Pages
         public int PageSize { get; set; } = 10;
         public int TotalPages { get; set; }
 
-        public IndexModel(IWebHostEnvironment environment)
+        public async Task<IActionResult> OnGetAsync()
         {
-            _environment = environment;
-        }
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
 
-        public void OnGet()
-        {
             LoadClassListFromSession();
             IsEdit = HttpContext.Session.GetObjectFromJson<bool?>(SessionKeyIsEdit) ?? false;
 
-            // prompt: It must only generate data if there is no data in the list
             if (!ClassList.Any())
             {
                 GenerateSyntheticData();
             }
 
             LoadClassListTable();
+            return await Task.FromResult(Page());
         }
-        // Prompt: a method for generate synthetic data for the class list.
+
         private void GenerateSyntheticData()
         {
             var random = new Random();
@@ -98,8 +97,14 @@ namespace MyRazorApp.Pages
                 .ToList();
         }
 
-        public IActionResult OnGetToggleColumn(string columnName)
+        public async Task<IActionResult> OnGetToggleColumnAsync(string columnName)
         {
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
             LoadClassListFromSession();
 
             switch (columnName.ToLower())
@@ -116,15 +121,21 @@ namespace MyRazorApp.Pages
             }
 
             HttpContext.Session.SetObjectAsJson(SessionKeyExportOpts, ExportOptions);
-            return RedirectToPage(new { FilterBy, PageNumber });
+            return await Task.FromResult(RedirectToPage("Dashboard", new { FilterBy, PageNumber }));  // Specify "Dashboard" explicitly
         }
-        //prompt: A method for exporting a file when the user clicks the export button.
-        public IActionResult OnPostExportJson()
+
+        public async Task<IActionResult> OnPostExportJsonAsync()
         {
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
             LoadClassListFromSession();
 
-            bool exportAllColumns = !ExportOptions.ExportClassName 
-                                    && !ExportOptions.ExportStudentCount 
+            bool exportAllColumns = !ExportOptions.ExportClassName
+                                    && !ExportOptions.ExportStudentCount
                                     && !ExportOptions.ExportClassDescription;
 
             var dataToExport = ExportOptions.ExportOnlyFiltered && !string.IsNullOrEmpty(FilterBy)
@@ -133,9 +144,9 @@ namespace MyRazorApp.Pages
                     c.ClassDescription.Contains(FilterBy, StringComparison.OrdinalIgnoreCase))
                 : ClassList;
 
-            var dir = Path.Combine(_environment.ContentRootPath, "json");
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), "json");
             Directory.CreateDirectory(dir);
-            
+
             var fileName = $"export{Guid.NewGuid().ToString("N")[..8]}.json";
             var filePath = Path.Combine(dir, fileName);
 
@@ -146,20 +157,32 @@ namespace MyRazorApp.Pages
                 ["ClassDescription"] = exportAllColumns || ExportOptions.ExportClassDescription
             };
 
-            Utils.Instance.ExportToJson(
-                dataToExport,
-                filePath,
-                Utils.Instance.CreatePropertySelector<ClassInformationModel>(flags)
-            );
+            try
+            {
+                Utils.Instance.ExportToJson(dataToExport, filePath, Utils.Instance.CreatePropertySelector<ClassInformationModel>(flags));
+                TempData["ExportSuccess"] = $"Exported {dataToExport.Count()} records to {fileName}";
+            }
+            catch (Exception ex)
+            {
+                TempData["ExportError"] = $"Failed to export data: {ex.Message}";
+            }
 
-            TempData["ExportSuccess"] = $"Exported {dataToExport.Count()} records to {fileName}";
-            return RedirectToPage();
+            return await Task.FromResult(RedirectToPage("Dashboard", new { FilterBy, PageNumber }));  // Specify "Dashboard" explicitly
         }
 
-        public IActionResult OnPostAdd()
+        public async Task<IActionResult> OnPostAddAsync()
         {
-            if (!ModelState.IsValid) 
-                return Page();
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                LoadClassListFromSession();
+                return await Task.FromResult(Page());
+            }
 
             LoadClassListFromSession();
 
@@ -173,11 +196,17 @@ namespace MyRazorApp.Pages
             });
 
             SaveClassListToSession();
-            return RedirectToPage();
+            return await Task.FromResult(RedirectToPage("Dashboard", new { FilterBy, PageNumber }));  // Specify "Dashboard" explicitly
         }
 
-        public IActionResult OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
             LoadClassListFromSession();
 
             var item = ClassList.FirstOrDefault(c => c.Id == id);
@@ -187,11 +216,17 @@ namespace MyRazorApp.Pages
                 SaveClassListToSession();
             }
 
-            return RedirectToPage();
+            return await Task.FromResult(RedirectToPage("Dashboard", new { FilterBy, PageNumber }));  // Specify "Dashboard" explicitly
         }
 
-        public IActionResult OnPostEdit(int id)
+        public async Task<IActionResult> OnPostEditAsync(int id)
         {
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
             LoadClassListFromSession();
             var item = ClassList.FirstOrDefault(c => c.Id == id);
             if (item != null)
@@ -200,16 +235,25 @@ namespace MyRazorApp.Pages
                 IsEdit = true;
                 HttpContext.Session.SetObjectAsJson(SessionKeyIsEdit, true);
             }
-            return Page();
+            LoadClassListTable();
+            return await Task.FromResult(Page());
         }
 
-        public IActionResult OnPostUpdate()
+        public async Task<IActionResult> OnPostUpdateAsync()
         {
+            if (!IsAuthenticated())
+            {
+                TempData["ErrorMessage"] = "Please log in to access this page.";
+                return RedirectToPage("Login");
+            }
+
             if (!ModelState.IsValid)
             {
                 IsEdit = true;
                 HttpContext.Session.SetObjectAsJson(SessionKeyIsEdit, true);
-                LoadClassListFromSession(); // Prompt: Load the class list again to show validation errors
+                LoadClassListFromSession();
+                LoadClassListTable();
+                return await Task.FromResult(Page());
             }
 
             LoadClassListFromSession();
@@ -224,7 +268,7 @@ namespace MyRazorApp.Pages
 
             IsEdit = false;
             HttpContext.Session.Remove(SessionKeyIsEdit);
-            return RedirectToPage();
+            return await Task.FromResult(RedirectToPage("Dashboard", new { FilterBy, PageNumber }));  // Specify "Dashboard" explicitly
         }
 
         private void LoadClassListFromSession()
@@ -239,6 +283,19 @@ namespace MyRazorApp.Pages
         {
             HttpContext.Session.SetObjectAsJson(SessionKeyClassList, ClassList);
             HttpContext.Session.SetObjectAsJson(SessionKeyExportOpts, ExportOptions);
+        }
+
+        private bool IsAuthenticated()
+        {
+            var sessionUsername = HttpContext.Session.GetString("username");
+            var sessionToken = HttpContext.Session.GetString("token");
+            var cookieUsername = Request.Cookies["username"];
+            var cookieToken = Request.Cookies["token"];
+
+            return !string.IsNullOrEmpty(sessionUsername) &&
+                   !string.IsNullOrEmpty(sessionToken) &&
+                   sessionUsername == cookieUsername &&
+                   sessionToken == cookieToken;
         }
     }
 }

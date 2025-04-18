@@ -2,11 +2,15 @@
   "Files": [
     {
       "Id": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\MyRazorApp.bundle.scp.css",
-      "PackagePath": "staticwebassets\\MyRazorApp.3qllje9i0z.bundle.scp.css"
+      "PackagePath": "staticwebassets\\MyRazorApp.kjc4yn3mif.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\data\\users.json",
+      "PackagePath": "staticwebassets\\data\\users.json"
     },
     {
       "Id": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\wwwroot\\favicon.ico",
