@@ -13,12 +13,9 @@ namespace MyRazorApp.Models
         [Display(Name = "Student Count")]
         public int StudentCount { get; set; }
 
-        [Required]
         [Display(Name = "Description")]
-        public required string ClassDescription { get; set; }
-        
-        // Track column selections for export
-        public bool IsClassNameSelected { get; set; } = true;
+        public string ClassDescription { get; set; }
+                public bool IsClassNameSelected { get; set; } = true;
         public bool IsStudentCountSelected { get; set; } = true;
         public bool IsClassDescriptionSelected { get; set; } = true;
     }

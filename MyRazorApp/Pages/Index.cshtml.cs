@@ -62,34 +62,36 @@ namespace MyRazorApp.Pages.Classes
         }
 
         private async Task LoadClassListTableAsync()
-        {
-            var query = _context.Classes.AsQueryable();
+{
+    var query = _context.Classes.AsQueryable();
 
-            if (!string.IsNullOrEmpty(FilterBy))
-            {
-                query = query.Where(c =>
-                    c.Name.Contains(FilterBy) ||
-                    c.Description.Contains(FilterBy));
-            }
+    if (!string.IsNullOrEmpty(FilterBy))
+    {
+        query = query.Where(c =>
+            c.Name.Contains(FilterBy) ||
+            c.Description.Contains(FilterBy));
+    }
 
-            var count = await query.CountAsync();
-            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-            PageNumber = Math.Clamp(PageNumber, 1, TotalPages);
+    var count = await query.CountAsync();
+    TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+    TotalPages = Math.Max(TotalPages, 1); // Hiç kayıt yoksa bile en az 1 sayfa
 
-            ClassListTable = await query
-                .OrderBy(c => c.Id)
-                .Skip((PageNumber - 1) * PageSize)
-                .Take(PageSize)
-                .Select(c => new ClassInformationTableModel
-                {
-                    Id = c.Id,
-                    ClassName = c.Name,
-                    StudentCount = c.StudentCount,
-                    ClassDescription = c.Description
+    // Sayfa numarasını sınırla
+    PageNumber = Math.Clamp(PageNumber, 1, TotalPages);
 
-                })
-                .ToListAsync();
-        }
+   ClassListTable = await query
+    .OrderBy(c => c.Id)
+    .Skip((PageNumber - 1) * PageSize)
+    .Take(PageSize)
+    .Select(c => new ClassInformationTableModel
+    {
+        Id = c.Id,
+        ClassName = c.Name ?? "", // null olma ihtimali düşük ama eklenebilir
+        StudentCount = c.StudentCount,
+        ClassDescription = c.Description ?? "" // ← sorun burada, null olabilir
+    })
+    .ToListAsync();
+}
 
         public async Task<IActionResult> OnPostAddAsync()
         {

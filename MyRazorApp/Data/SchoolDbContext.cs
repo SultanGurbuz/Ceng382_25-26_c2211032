@@ -10,4 +10,5 @@ namespace MyRazorApp.Data
             : base(options) { }
 
         public DbSet<Class> Classes { get; set; } = default!;}
+        // Add DbSet for User model later
 }
