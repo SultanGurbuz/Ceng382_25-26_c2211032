@@ -1,13 +1,22 @@
 using System;
-
-namespace MyRazorApp.Models
+using System.ComponentModel.DataAnnotations;
+//prompt: "Create a User model class with properties for Id, Username, PasswordHash, Role, IsActive, and CreatedAt. Use appropriate data annotations for validation."
+namespace MyRazorApp.Models //to be implemented 
 {
     public class User
-    {   
-        public required string Username { get; set; }
-        public required string Password { get; set; }
-        public required string Role { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
+    {
+        public int Id { get; set; }
+
+        [Required, MaxLength(50)]
+        public string Username { get; set; } = string.Empty;
+
+        [Required, MaxLength(60)]
+        public string PasswordHash { get; set; } = string.Empty;
+
+        [Required, MaxLength(20)]
+        public string Role { get; set; } = "User";
+
+        public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

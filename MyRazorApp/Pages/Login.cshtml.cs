@@ -1,68 +1,82 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyRazorApp.Models;
-using System.Text.Json;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-//prompt: Please write the code in C# for a Razor Page that handles user login. The page should validate the username and password against a JSON file containing user data. If the login is successful, it should set session variables and cookies for the user. If the login fails, it should display an error message.
+using System.Text.Json;
+using MyRazorApp.Models;
+
 namespace MyRazorApp.Pages
 {
     public class LoginModel : PageModel
     {
-        [BindProperty]
-        [Required(ErrorMessage = "Username is required.")]
-        public string Username { get; set; }
+        private readonly IWebHostEnvironment _env;
 
-        [BindProperty]
-        [Required(ErrorMessage = "Password is required.")]
-        public string Password { get; set; }
+        public LoginModel(IWebHostEnvironment env) => _env = env;
 
-        public string ErrorMessage { get; set; }
+        [BindProperty, Required(ErrorMessage = "Username is required.")]
+        public string Username { get; set; } = string.Empty;
 
-       public async Task<IActionResult> OnPostAsync()
+        [BindProperty, Required(ErrorMessage = "Password is required.")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
+
+        public string ErrorMessage { get; set; } = string.Empty;
+
+        public async Task<IActionResult> OnPostAsync()
+{
+    if (!ModelState.IsValid)
+        return Page();
+
+    // JSON path (inside wwwroot/Data)
+    var jsonPath = Path.Combine(_env.WebRootPath, "Data", "users.json");
+    if (!System.IO.File.Exists(jsonPath))
     {
-        if (!ModelState.IsValid)
-        {
-            return Page();
-        }
+        ErrorMessage = "User data not found.";
+        return Page();
+    }
 
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/data/users.json");
-        if (!System.IO.File.Exists(filePath))
-        {
-            ErrorMessage = "User data file not found.";
-            return Page();
-        }
+    var json = await System.IO.File.ReadAllTextAsync(jsonPath);
+    var users = JsonSerializer.Deserialize<List<JsonUser>>(json);
 
-        var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
-        var users = JsonSerializer.Deserialize<List<User>>(jsonData);
-        var user = users.FirstOrDefault(u => u.Username == Username && u.Password == Password && u.IsActive);
+    var user = users?.FirstOrDefault(u =>
+        u.Username == Username &&
+        u.IsActive &&
+        u.Password == Password // test amaçlı düz şifre kontrolü
+    );
 
-        if (user != null)
-        {
-            var token = Guid.NewGuid().ToString();
-            HttpContext.Session.SetString("username", user.Username);
-            HttpContext.Session.SetString("token", token);
-            HttpContext.Session.SetString("session_id", HttpContext.Session.Id);
-
-            var options = new CookieOptions
-            {
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                HttpOnly = true,
-                Secure = true, // Set to false for local testing if HTTPS is not configured
-                SameSite = SameSiteMode.Strict
-            };
-            Response.Cookies.Append("username", user.Username, options);
-            Response.Cookies.Append("token", token, options);
-            Response.Cookies.Append("session_id", HttpContext.Session.Id, options);
-
-            return RedirectToPage("Dashboard");  // Updated to Dashboard
-        }
-
+    if (user == null)
+    {
         ErrorMessage = "Username or password is incorrect.";
         return Page();
+    }
+
+    // session + cookie işlemleri
+    var token = Guid.NewGuid().ToString("N");
+    HttpContext.Session.SetString("username", user.Username);
+    HttpContext.Session.SetString("token", token);
+    HttpContext.Session.SetString("sid", HttpContext.Session.Id);
+
+    var opts = new CookieOptions
+    {
+        Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+        HttpOnly = true,
+        SameSite = SameSiteMode.Strict,
+        Secure = Request.IsHttps
+    };
+    Response.Cookies.Append("username", user.Username, opts);
+    Response.Cookies.Append("token", token, opts);
+    Response.Cookies.Append("sid", HttpContext.Session.Id, opts);
+
+    return RedirectToPage("/Index");
 }
+
+
+        public class JsonUser
+        {
+            public string Username { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+            public string Role { get; set; } = "User";
+            public bool IsActive { get; set; } = true;
+            public DateTime CreatedAt { get; set; }
+        }
     }
 }
