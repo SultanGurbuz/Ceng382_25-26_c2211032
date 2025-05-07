@@ -1,28 +1,40 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using MyRazorApp;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Services ──────────────────────────────────────────────────────────────
-builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
 
-builder.Services.AddSession(o =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    o.IdleTimeout          = TimeSpan.FromMinutes(30);
-    o.Cookie.HttpOnly      = true;
-    o.Cookie.IsEssential   = true;
-    o.Cookie.SameSite      = SameSiteMode.Strict;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<SchoolDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
 });
 
-// ── Pipeline ──────────────────────────────────────────────────────────────
 var app = builder.Build();
+
+// ── Middleware ──────────────────────────────────────────────────────────────
 
 if (!app.Environment.IsDevelopment())
 {
@@ -34,43 +46,39 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();
+
+app.UseSession(); // önce session
+app.UseAuthentication(); // sonra auth
 app.UseAuthorization();
 
-// tiny security headers middleware
-app.Use(async (ctx, next) =>
+app.Use(async (context, next) =>
 {
-    ctx.Response.Headers.Append("X-Content-Type-Options", "nosniff");
-    ctx.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
     await next();
 });
 
-// Seed dummy class data once
+// ── Seed Users & Roles ─────────────────────────────────────────────────────
+
 using (var scope = app.Services.CreateScope())
 {
-    var db  = scope.ServiceProvider.GetRequiredService<SchoolDbContext>();
-    var fn  = Path.Combine(app.Environment.WebRootPath, "data", "classes.json");
-
-    if (File.Exists(fn) && !db.Classes.Any())
-    {
-        var list = JsonSerializer.Deserialize<List<Class>>(await File.ReadAllTextAsync(fn));
-        if (list?.Any() == true)
-        {
-            db.Classes.AddRange(list);
-            await db.SaveChangesAsync();
-        }
-    }
+    var services = scope.ServiceProvider;
+    await IdentitySeeder.SeedUsersAndRolesAsync(services);
 }
 
-// Razor Pages first; fallback root → /Login
-app.MapRazorPages();
-app.MapGet("/", ctx =>
-{
+// ── Endpoints ──────────────────────────────────────────────────────────────
 
-    if (ctx.Request.Cookies.ContainsKey("username"))
-        ctx.Response.Redirect("/Index");
+app.MapRazorPages();
+
+// Optional: Redirect root path to login or index based on cookie
+app.MapGet("/", context =>
+{
+    if (context.Request.Cookies.ContainsKey("username"))
+        context.Response.Redirect("/Index");
     else
-        ctx.Response.Redirect("/Login");
+        context.Response.Redirect("/Login");
+
     return Task.CompletedTask;
 });
+
 app.Run();

@@ -5222,11 +5222,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\myRazorApp\\MyRazorApp.csproj",
+      "projectUniqueName": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\MyRazorApp.csproj",
       "projectName": "MyRazorApp",
-      "projectPath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\myRazorApp\\MyRazorApp.csproj",
+      "projectPath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\MyRazorApp.csproj",
       "packagesPath": "C:\\Users\\sulta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\myRazorApp\\obj\\",
+      "outputPath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5315,5 +5315,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }

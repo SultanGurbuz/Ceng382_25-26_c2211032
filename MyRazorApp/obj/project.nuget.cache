@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "v3FaDaWCF6Y=",
+  "dgSpecHash": "HweKcp/Hoyg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\myRazorApp\\MyRazorApp.csproj",
+  "projectFilePath": "C:\\Users\\sulta\\OneDrive\\Belgeler\\repos\\Ceng382_25-26_c2211032\\MyRazorApp\\MyRazorApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sulta\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\sulta\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -94,5 +94,12 @@
     "C:\\Users\\sulta\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\sulta\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }
