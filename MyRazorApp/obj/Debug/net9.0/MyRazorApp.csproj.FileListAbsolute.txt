@@ -309,3 +309,5 @@ C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\myRazorApp\obj\Deb
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\myRazorApp\obj\Debug\net9.0\compressed\nezrqnk58p-muycvpuwrr.gz
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\myRazorApp\obj\Debug\net9.0\compressed\v0zgfp0y55-87fc7y1x7t.gz
 C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\myRazorApp\obj\Debug\net9.0\compressed\yfc7ypekbg-mlv21k5csn.gz
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export_b00a4b2df05b49a8a0e3b558650c3d57.json
+C:\Users\sulta\OneDrive\Belgeler\repos\Ceng382_25-26_c2211032\MyRazorApp\bin\Debug\net9.0\json\export_f353438091d345f3ab88c1f3f916385a.json
