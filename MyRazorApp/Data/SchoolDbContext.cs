@@ -5,7 +5,7 @@ using MyRazorApp.Models;
 
 namespace MyRazorApp.Data
 {
-public class SchoolDbContext : IdentityDbContext<ApplicationUser>
+    public class SchoolDbContext : IdentityDbContext<ApplicationUser>
     {
         public SchoolDbContext(DbContextOptions<SchoolDbContext> options)
             : base(options) { }

@@ -1,28 +1,50 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using MyRazorApp;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Services ──────────────────────────────────────────────────────────────
-builder.Services.AddRazorPages();
-
+// Database bağlantısı
 builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
 
-builder.Services.AddSession(o =>
+// Identity ayarları
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    o.IdleTimeout          = TimeSpan.FromMinutes(30);
-    o.Cookie.HttpOnly      = true;
-    o.Cookie.IsEssential   = true;
-    o.Cookie.SameSite      = SameSiteMode.Strict;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<SchoolDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.LogoutPath = "/Logout";
 });
 
-// ── Pipeline ──────────────────────────────────────────────────────────────
+builder.Services.AddRazorPages();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+});
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await IdentitySeeder.SeedUsersAndRolesAsync(services);
+}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -32,45 +54,26 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
-
-// tiny security headers middleware
-app.Use(async (ctx, next) =>
-{
-    ctx.Response.Headers.Append("X-Content-Type-Options", "nosniff");
-    ctx.Response.Headers.Append("X-Frame-Options", "DENY");
-    await next();
-});
-
-// Seed dummy class data once
-using (var scope = app.Services.CreateScope())
-{
-    var db  = scope.ServiceProvider.GetRequiredService<SchoolDbContext>();
-    var fn  = Path.Combine(app.Environment.WebRootPath, "data", "classes.json");
-
-    if (File.Exists(fn) && !db.Classes.Any())
-    {
-        var list = JsonSerializer.Deserialize<List<Class>>(await File.ReadAllTextAsync(fn));
-        if (list?.Any() == true)
-        {
-            db.Classes.AddRange(list);
-            await db.SaveChangesAsync();
-        }
-    }
-}
-
-// Razor Pages first; fallback root → /Login
 app.MapRazorPages();
-app.MapGet("/", ctx =>
-{
 
-    if (ctx.Request.Cookies.ContainsKey("username"))
-        ctx.Response.Redirect("/Index");
+// Ana sayfa -> Login
+app.MapGet("/", async context =>
+{
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
+        context.Response.Redirect("/Index");
+    }
     else
-        ctx.Response.Redirect("/Login");
-    return Task.CompletedTask;
+    {
+        context.Response.Redirect("/Login");
+    }
+
+    await Task.CompletedTask;
 });
+
+
 app.Run();
