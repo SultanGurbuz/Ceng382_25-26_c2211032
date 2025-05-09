@@ -6,11 +6,11 @@ using MyRazorApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Services ──────────────────────────────────────────────────────────────
-
+// Database bağlantısı
 builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
 
+// Identity ayarları
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -21,6 +21,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<SchoolDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.LogoutPath = "/Logout";
+});
 
 builder.Services.AddRazorPages();
 
@@ -34,7 +40,11 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// ── Middleware ──────────────────────────────────────────────────────────────
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await IdentitySeeder.SeedUsersAndRolesAsync(services);
+}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -44,41 +54,26 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseSession(); // önce session
-app.UseAuthentication(); // sonra auth
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
-
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
-    context.Response.Headers.Append("X-Frame-Options", "DENY");
-    await next();
-});
-
-// ── Seed Users & Roles ─────────────────────────────────────────────────────
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    await IdentitySeeder.SeedUsersAndRolesAsync(services);
-}
-
-// ── Endpoints ──────────────────────────────────────────────────────────────
-
 app.MapRazorPages();
 
-// Optional: Redirect root path to login or index based on cookie
-app.MapGet("/", context =>
+// Ana sayfa -> Login
+app.MapGet("/", async context =>
 {
-    if (context.Request.Cookies.ContainsKey("username"))
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
         context.Response.Redirect("/Index");
+    }
     else
+    {
         context.Response.Redirect("/Login");
+    }
 
-    return Task.CompletedTask;
+    await Task.CompletedTask;
 });
+
 
 app.Run();

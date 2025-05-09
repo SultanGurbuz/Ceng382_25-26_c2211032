@@ -11,5 +11,9 @@ namespace MyRazorApp.Data
             : base(options) { }
 
         public DbSet<Class> Classes { get; set; } = default!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
