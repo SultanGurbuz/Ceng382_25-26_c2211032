@@ -1,5 +1,6 @@
 @page
-@model MyRazorApp.Pages.Classes.IndexModel
+@model MyRazorApp.Pages.IndexModel
+
 @{
     ViewData["Title"] = "Classes";
 }
@@ -7,7 +8,6 @@
 <h2 class="mb-4">Class Dashboard</h2>
 
 <div class="row">
-
     <div class="col-md-4">
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white">
@@ -35,11 +35,6 @@
                         <span asp-validation-for="ClassInformation.Description" class="text-danger"></span>
                     </div>
 
-                    <div class="form-check mb-3">
-                        <input asp-for="ClassInformation.IsActive" class="form-check-input" type="checkbox" />
-                        <label asp-for="ClassInformation.IsActive" class="form-check-label fw-bold"></label>
-                    </div>
-
                     <button type="submit" class="btn btn-success w-100">
                         @((Model.IsEdit ? "Update" : "Add")) Class
                     </button>
@@ -52,7 +47,6 @@
         <div class="card shadow-sm border-0">
             <div class="card-header bg-secondary text-white">Class List</div>
             <div class="card-body">
-
                 <form method="get" class="mb-3" id="filter-form">
                     <input type="text" name="FilterBy" value="@Model.FilterBy"
                            placeholder="🔍 Search class name or description..."
@@ -89,10 +83,10 @@
                                             ✏️ Edit
                                         </button>
                                     </form>
-                                    <form method="post" asp-page-handler="Delete" asp-route-id="@row.Id" class="d-inline"
-                                          onsubmit="return confirm('Are you sure you want to delete this class?');">
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            🗑️ Delete
+                                    <form method="post" asp-page-handler="Inactivate" asp-route-id="@row.Id" class="d-inline"
+                                          onsubmit="return confirm('Are you sure you want to inactivate this class?');">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Inactivate">
+                                            🗑️
                                         </button>
                                     </form>
                                 </td>
@@ -103,7 +97,6 @@
 
                 <nav>
                     <ul class="pagination">
-
                         <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
                             <form method="get" class="d-inline">
                                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
@@ -111,7 +104,6 @@
                                 <button class="page-link">Previous</button>
                             </form>
                         </li>
-
                         @for (int i = 1; i <= Model.TotalPages; i++)
                         {
                             <li class="page-item @(i == Model.PageNumber ? "active" : "")">
@@ -122,7 +114,6 @@
                                 </form>
                             </li>
                         }
-
                         <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
                             <form method="get" class="d-inline">
                                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
@@ -132,7 +123,6 @@
                         </li>
                     </ul>
                 </nav>
-
             </div>
         </div>
     </div>
@@ -140,7 +130,6 @@
 
 @section Scripts {
 <script>
-    // Table header column selector
     document.querySelectorAll('#class-table thead th[data-col]').forEach(th => {
         th.addEventListener('click', () => {
             th.classList.toggle('table-info');
@@ -153,7 +142,6 @@
         });
     });
 
-    // Debounced filter input (500ms delay)
     let filterTimeout;
     const filterInput = document.getElementById('filter-input');
     filterInput.addEventListener('input', function () {
@@ -165,12 +153,9 @@
 </script>
 }
 
+
 <style>
 thead th.table-info      { background: #bee5eb; cursor: pointer; }
 thead th[data-col]:hover { background: #d0f0f5; }
-
-.card-header {
-    font-weight: bold;
-    font-size: 1.1rem;
-}
+.card-header { font-weight: bold; font-size: 1.1rem; }
 </style>
