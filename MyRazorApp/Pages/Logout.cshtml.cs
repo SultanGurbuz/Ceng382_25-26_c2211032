@@ -1,33 +1,18 @@
-// Pages/Logout.cshtml.cs
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
-
+//prompt: Please write the code in C# for a Razor Page that handles user logout. The page should clear the session variables and cookies set during login. After logging out, it should redirect the user to the login page.
 namespace MyRazorApp.Pages
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        public LogoutModel(SignInManager<ApplicationUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
         public async Task<IActionResult> OnPostAsync()
         {
-            await _signInManager.SignOutAsync();
             HttpContext.Session.Clear();
             Response.Cookies.Delete("username");
             Response.Cookies.Delete("token");
             Response.Cookies.Delete("session_id");
-            return RedirectToPage("/Login");
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
+            return await Task.FromResult(RedirectToPage("Login"));
         }
     }
 }

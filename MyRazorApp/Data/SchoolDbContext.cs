@@ -1,19 +1,14 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Models;
 
-
 namespace MyRazorApp.Data
 {
-    public class SchoolDbContext : IdentityDbContext<ApplicationUser>
+    public class SchoolDbContext : DbContext
     {
         public SchoolDbContext(DbContextOptions<SchoolDbContext> options)
             : base(options) { }
 
-        public DbSet<Class> Classes { get; set; } = default!;
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-    }
+        public DbSet<Class> Classes { get; set; } = default!;}
+        // Add DbSet for User model later
 }
